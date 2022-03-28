@@ -11,7 +11,7 @@ export class TasksService {
   }
 
   public getTaskById(id: string): Task {
-    return this.tasks.find((task) => (task.id = id));
+    return this.tasks.find((task) => task.id === id);
   }
 
   public createTask(createTaskDto: CreateTaskDto): Task {
@@ -27,5 +27,16 @@ export class TasksService {
     this.tasks.push(task);
 
     return task;
+  }
+
+  public updateTaskStatus(id: string, status: TaskStatus): Task {
+    const task = this.getTaskById(id);
+    task.status = status;
+    return task;
+  }
+
+  public removeTask(id: string): void {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+    return;
   }
 }
