@@ -58,16 +58,83 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+### NestJS Documentation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## NestJS Modules
 
-## Stay in touch
+- Each application has at least one module - the root module. That is the starting point of the application.
+- Modules are an effective way to organize components by a closely related set of capabilities (e.g. per feature)
+- It is a good practice to have a folder per module, containing the module's components.
+- Modules are **singletons**, therefore a module can be imported my multiple modules.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Defining a module
 
-## License
+A module is a class decorated with the @Module decorator.
+The decorator provides metadata that Nest uses to organize the application structure.
 
-Nest is [MIT licensed](LICENSE).
+## @Module Decorator Properties
+
+- **providers**: Array of providers - services, repositories, factories, helpers, etc - to be available within the module via dependency injection.
+- **controllers**: Array of controllers instantiated within the module.
+- **exports**: Array of providers to export to other modules.
+- **imports**: List of modules required by this module. Any exported provider by these modules will now be available in our module via dependency injection.
+
+## Controllers
+
+- Responsible for handling incoming **requests** and returning **responses** to the client.
+- Bound to a specific **path** (for example, "/tasks" for the task resource).
+- Contain **handlers**, which handle **endpoints** and **requests methods** (GET, POST, DELETE, etc).
+- Can take advantage of **dependency inejction** to consume providers within the same module.
+
+## Defining a Controller
+
+Controllers are defined by decorating a class with the @Controller decorator.
+The decorator accepts a string, which is the **path** to be handled by the controller.
+
+## Defining a Handler
+
+Handlers are simply methods within the controller class, decorated with decorators such as @Get, @Post, @Delete, etc
+
+## Service
+
+- Defined as providers. **Not all providers are services**.
+- Common concept within software development and are not exclusive to NestJS, Javascript, or Back-End development.
+- Singleton when wrapped with @Injectable() and provided to a module. That means, the same instance will be shared across the application - acting as a single source of truth.
+- The main source of business logic. For example, a service will be called from a controller to validate data, create an item in the database and reeturn a response.
+
+## Dependency Injection in NestJS
+
+Any component within the NestJS ecosystem can inject a provider that is decorated with the @Injectable.
+We define the dependencies in the constructor of the class. NestJS will take care of the injection for us, and it will then be available as a class property.
+
+## NestJS Pipes
+
+- Pipes operate on the **arguments** to be process by the route handler, just before the hanlder is called.
+- Pipes can perform **data transformation** or **data validation**.
+- Pipes can return data - either original or modified - which will be passed on to the route handler.
+- Pipes can throw exceptions. Exceptions thrown will be handled by NestJS and parsed into an error response.
+- Pipes can be asynchronous.
+
+## Default Pipes in NestJS
+
+NestJS ships with useful pipes within the _@nestjs/common_ module.
+
+### ValidationPipe
+
+Validates the compatibility of an entire object against a class (goes well with DTOs). If any property cannot be mapped properly (for example, mismatching type) validation will fail.
+
+A very common use case, therefore having built-in validation pipe is extremely useful.
+
+### ParseIntPipe
+
+By default, arguments are of type **String**. This pipe validates that an argument is a number. If successful, the argument is transformed into a **Number** and passed on to the handler.
+
+## Custom Pipe Implementation
+
+- Pipes are classes annotated with the @Injectible() decorator.
+- Pipes must implement the **PipeTransform** generic interface. Therefore, every pipe must have a **transform()** method. This method will be called by NestJS to process the arguments.
+- The **transform()** method accepts two paramters:
+  - **value**: the value of the processed argument.
+  - **metadata** (optional): an object containing metadata about the argument.
+- Whatever is returened from the **transform()** method will be passed on to the route handler. Exceptions will be sent back to the client.
+- Pipes can be consumed in different ways.

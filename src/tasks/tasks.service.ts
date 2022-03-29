@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Task, TaskStatus } from './task.model';
 import { v4 as uuid } from 'uuid';
+import { Task } from './task.model';
+import TaskStatus from '../common/enum/task-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTaskFilterDto } from './dto/get-tasks-filter.dto';
 
@@ -29,9 +30,8 @@ export class TasksService {
       tasks = tasks.filter((task) => {
         if (task.title.includes(search) || task.description.includes(search)) {
           return true;
-        } else {
-          return false;
         }
+        return false;
       });
     }
 
@@ -61,6 +61,5 @@ export class TasksService {
 
   public removeTask(id: string): void {
     this.tasks = this.tasks.filter((task) => task.id !== id);
-    return;
   }
 }
