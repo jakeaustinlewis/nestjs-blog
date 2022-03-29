@@ -21,7 +21,7 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToClass(metatype, value);
     const errors = await validate(object, { groups: this.http });
     if (errors.length > 0) {
-      throw new BadRequestException(errors);
+      throw new BadRequestException(ValidationPipe.formatErrors(errors));
     }
 
     return object;
@@ -32,7 +32,13 @@ export class ValidationPipe implements PipeTransform<any> {
     return !types.includes(metatype);
   }
 
-  private static formatErrors(errors: any[]): string[] {
-    return errors.map((error) => error.contraints);
+  private static formatErrors(errors: any[]): any[] {
+    const constraints = errors
+      .filter((error) => error.constraints)
+      .map((error) => error.constraints);
+    return constraints.map((error) => {
+      const [errorMessage] = Object.keys(error).map((key) => error[key]);
+      return errorMessage;
+    });
   }
 }
