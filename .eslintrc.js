@@ -25,6 +25,8 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": ["error"],
     "import/prefer-default-export": "off",
     "indent": "off",
-    "@typescript-eslint/indent": "off"
+    "@typescript-eslint/indent": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off"
   },
 };
