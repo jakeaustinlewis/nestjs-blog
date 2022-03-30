@@ -58,6 +58,15 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Local Postgres Database
+
+Make sure to have [Docker](https://runnable.com/docker/install-docker-on-macos) installed.
+
+```bash
+# set up local postgres instance
+$ docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+```
+
 # NestJS Documentation
 
 ## NestJS Modules
