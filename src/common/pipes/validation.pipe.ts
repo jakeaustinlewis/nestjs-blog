@@ -1,51 +1,44 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable class-methods-use-this */
 import {
   PipeTransform,
   Injectable,
   ArgumentMetadata,
-  HttpStatus,
-  HttpException,
+  BadRequestException,
 } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+import { plainToClass } from 'class-transformer';
+import HttpMethod from '../enum/http-method.enum';
 
 @Injectable()
-export class ValidationPipe implements PipeTransform {
-  constructor(public http: string) {}
+export class ValidationPipe implements PipeTransform<any> {
+  constructor(private http?: HttpMethod) {}
 
-  // /** Method to implement a custom pipe. Called with two parameters
-  //  * @param value  — argument before it is received by route handler method
-  //  * @param metadata — contains metadata about the value
-  //  * @returns any
-  //  */
-  async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const entity = this;
-    // Dynamically determine the groups
-    const { metatype } = metadata;
-
-    const object = plainToInstance(metatype, value);
-    console.log('object: ', object);
-
-    const errors = await validate(object);
-
-    if (errors.length > 0) {
-      throw new HttpException(
-        `Validation failed: ${ValidationPipe.formatErrors(errors)}`,
-        HttpStatus.BAD_REQUEST,
-      );
+  async transform(value: any, { metatype }: ArgumentMetadata): Promise<any> {
+    if (!metatype || !this.toValidate(metatype)) {
+      return value;
     }
-    console.log('value: ', value);
-    console.log('metadata: ', metadata);
-    console.log('http: ', this.http);
+    const object = plainToClass(metatype, value);
+    const errors = await validate(object, { groups: this.http });
+    if (errors.length > 0) {
+      throw new BadRequestException(ValidationPipe.formatErrors(errors));
+    }
 
     return object;
   }
 
-  private static formatErrors(errors: any[]): string {
-    return errors
-      .map((error) =>
-        Object.keys(error.contraints).forEach((key) => error.contraints[key]),
-      )
-      .join(', ');
+  private toValidate(metatype: Function): boolean {
+    const types: Function[] = [String, Boolean, Number, Array, Object];
+    return !types.includes(metatype);
+  }
+
+  private static formatErrors(errors: any[]): any[] {
+    const constraints = errors
+      .filter((error) => error.constraints)
+      .map((error) => error.constraints);
+    return constraints.map((error) => {
+      const [errorMessage] = Object.keys(error).map((key) => error[key]);
+      return errorMessage;
+    });
   }
 }

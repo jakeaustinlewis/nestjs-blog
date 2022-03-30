@@ -8,7 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ValidationPipe } from '../common/pipes/exampleValidation.pipe';
+import { ValidationPipe } from '../common/pipes/validation.pipe';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { Task } from './task.model';
 import { TasksService } from './tasks.service';
@@ -21,7 +21,9 @@ export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  getTasks(@Query() filterDto: GetTaskFilterDto): Task[] {
+  getTasks(
+    @Query(new ValidationPipe(HttpMethod.Get)) filterDto: GetTaskFilterDto,
+  ): Task[] {
     if (Object.keys(filterDto).length) {
       return this.tasksService.getTasksWithFilters(filterDto);
     }

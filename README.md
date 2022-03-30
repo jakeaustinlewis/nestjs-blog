@@ -58,7 +58,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-### NestJS Documentation
+# NestJS Documentation
 
 ## NestJS Modules
 
@@ -138,3 +138,33 @@ By default, arguments are of type **String**. This pipe validates that an argume
   - **metadata** (optional): an object containing metadata about the argument.
 - Whatever is returened from the **transform()** method will be passed on to the route handler. Exceptions will be sent back to the client.
 - Pipes can be consumed in different ways.
+
+# Object Relational Mapping (ORM) and TypeORM
+
+## Object Relational Mapping (ORM)
+
+Object-Relational Mapping (ORM) is a technique that lets you query and manipulate data from a database, using an object-oriented paradigm.
+
+There are many ORM libraries that allow developers to communicate to the database using their preferred programming language - rather than sending plain queries directly.
+
+## Pros and Cons of using an ORM library
+
+### Pros
+
+- Writing the data model in one place - easier to maintain. Less repetition.
+- Lots of things done automatically - database handling, data types, relations etcetera.
+- No need to write SQL syntax (easy to learn, hard to master). Using yournatural way of coding.
+- Database abstraction - you can change the database type whenever you wish.
+- Leverages OOP, therefore things like inheritance are easy to ahieve.
+
+### Cons
+
+- It's an additional tool you have to learn, and ORM libraries are not always simple.
+- Performance is alright, but it's easy to neglect.
+- Make it easy to forget (or never learn) what's happeneing behind the scenes, which can lead to a variety of maintainability issues.
+
+## TypeORM
+
+TypeORM is an ORM library that can run in Node.js and be used with TypeScript (or JavaScript)
+
+Helps us define and manage entities, repositories, columns, relations, replication, indices, queries, loggin and so much more.
