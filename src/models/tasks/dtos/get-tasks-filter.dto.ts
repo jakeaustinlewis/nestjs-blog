@@ -1,8 +1,8 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import HttpMethod from 'src/common/enum/http-method.enum';
-import TaskStatus from '../../common/enum/task-status.enum';
+import TaskStatus from '../../../common/enum/task-status.enum';
 
-export class GetTaskFilterDto {
+export class GetTasksFilterDto {
   @IsOptional({ groups: [HttpMethod.Get] })
   @IsEnum(TaskStatus, { groups: [HttpMethod.Get] })
   status?: TaskStatus;

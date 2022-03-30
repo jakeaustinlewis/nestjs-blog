@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
-import { Task } from './task.model';
-import TaskStatus from '../common/enum/task-status.enum';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { GetTaskFilterDto } from './dto/get-tasks-filter.dto';
+import TaskStatus from '../../common/enum/task-status.enum';
+import { CreateTaskDto } from './dtos/create-task.dto';
+import { GetTasksFilterDto } from './dtos/get-tasks-filter.dto';
+import { Task } from './entities/task.entity';
 
 @Injectable()
 export class TasksService {
@@ -15,23 +15,18 @@ export class TasksService {
 
   public getTaskById(id: string): Task {
     const task = this.tasks.find((tk) => tk.id === id);
-
     if (!task) {
       throw new NotFoundException(`task with ID "${id}" not found`);
     }
-
     return task;
   }
 
-  public getTasksWithFilters(filterDto: GetTaskFilterDto): Task[] {
+  public getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
     const { status, search } = filterDto;
-
     let tasks = this.getAllTasks();
-
     if (status) {
       tasks = tasks.filter((task) => task.status === status);
     }
-
     if (search) {
       tasks = tasks.filter((task) => {
         if (task.title.includes(search) || task.description.includes(search)) {
@@ -40,23 +35,26 @@ export class TasksService {
         return false;
       });
     }
-
     return tasks;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public createTask(createTaskDto: CreateTaskDto): Task {
     const { title, description } = createTaskDto;
 
-    const task: Task = {
-      id: uuid(),
-      title,
-      description,
-      status: TaskStatus.Open,
-    };
-
-    this.tasks.push(task);
-
-    return task;
+    // const task = tasksRepository.create({
+    //   title,
+    //   description,
+    //   status: TaskStatus.Open,
+    // });
+    // const task: Task = {
+    //   id: uuid(),
+    //   title,
+    //   description,
+    //   status: TaskStatus.Open,
+    // };
+    // this.tasks.push(task);
+    return new Task();
   }
 
   public updateTaskStatus(id: string, status: TaskStatus): Task {
