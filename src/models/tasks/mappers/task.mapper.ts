@@ -1,0 +1,42 @@
+import TaskStatus from 'src/common/enum/task-status.enum';
+import { Entity } from 'typeorm';
+import { TaskDto } from '../dtos/task.dto';
+import { Task } from '../entities/task.entity';
+
+@Entity()
+export class TaskMapper {
+  public static toEntity(taskDto: TaskDto): Task {
+    const task = new Task();
+    task.status = taskDto.status || TaskStatus.Open;
+    task.description = taskDto.description;
+    task.title = taskDto.title;
+    return task;
+  }
+
+  public static fromEntity(task: Task): TaskDto {
+    const taskDto = new TaskDto();
+    taskDto.id = task.id;
+    taskDto.status = task.status;
+    taskDto.description = task.description;
+    taskDto.title = task.title;
+    return taskDto;
+  }
+
+  public static toEntityUpdate(taskDto): TaskDto {
+    const task = new Task();
+
+    if (taskDto.status) {
+      task.status = taskDto.status;
+    }
+
+    if (taskDto.description) {
+      task.description = taskDto.description;
+    }
+
+    if (taskDto.title) {
+      task.title = taskDto.title;
+    }
+
+    return task;
+  }
+}

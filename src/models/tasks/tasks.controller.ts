@@ -15,6 +15,7 @@ import { TasksService } from './tasks.service';
 import { GetTasksFilterDto } from './dtos/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dtos/update-task-status.dto';
 import HttpMethod from '../../common/enum/http-method.enum';
+import { TaskDto } from './dtos/task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -30,14 +31,14 @@ export class TasksController {
   //   return this.tasksService.getAllTasks();
   // }
 
-  // @Get('/:id')
-  // getTask(@Param('id') id: string): Task {
-  //   return this.tasksService.getTaskById(id);
-  // }
+  @Get('/:id')
+  getTask(@Param('id') id: string): Promise<Task> {
+    return this.tasksService.getTaskById(id);
+  }
 
   @Post() createTask(
-    @Body(new ValidationPipe(HttpMethod.Post)) createTaskDto: CreateTaskDto,
-  ): Task {
+    @Body(new ValidationPipe(HttpMethod.Post)) createTaskDto: TaskDto,
+  ): Promise<TaskDto> {
     return this.tasksService.createTask(createTaskDto);
   }
 
@@ -50,7 +51,8 @@ export class TasksController {
   //   return this.tasksService.updateTaskStatus(id, status);
   // }
 
-  // @Delete('/:id') deleteTask(@Param('id') id: string): void {
-  //   return this.tasksService.deleteTask(id);
-  // }
+  @Delete('/:id') deleteTask(@Param('id') id: string): Promise<void> {
+    console.log('id: ', id);
+    return this.tasksService.deleteTask(id);
+  }
 }

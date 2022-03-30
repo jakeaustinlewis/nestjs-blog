@@ -1,8 +1,8 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import TaskStatus from '../../../common/enum/task-status.enum';
 
 @Entity()
-export class Task extends BaseEntity {
+export class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -13,5 +13,5 @@ export class Task extends BaseEntity {
   description: string;
 
   @Column()
-  status: TaskStatus;
+  status?: TaskStatus;
 }
