@@ -1,5 +1,5 @@
-import TaskStatus from 'src/common/enum/task-status.enum';
 import { Entity } from 'typeorm';
+import TaskStatus from '../../../common/enum/task-status.enum';
 import { TaskDto } from '../dtos/task.dto';
 import { Task } from '../entities/task.entity';
 

@@ -27,6 +27,7 @@ module.exports = {
     "indent": "off",
     "@typescript-eslint/indent": "off",
     "implicit-arrow-linebreak": "off",
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "object-curly-newline": "off"
   },
 };
