@@ -13,10 +13,9 @@ export class TasksService {
     private tasksRepo: TasksRepository,
   ) {}
 
-  public async getTasks(
-    filterDto?: GetTasksFilterDto,
-  ): Promise<GetTasksFilterDto[]> {
-    return this.tasksRepo.getTasks(filterDto);
+  public async getTasks(filterDto?: GetTasksFilterDto): Promise<Task[]> {
+    const tasks = await this.tasksRepo.getTasks(filterDto);
+    return tasks.map((task) => TaskMapper.fromEntity(task));
   }
 
   public async getTaskById(id: string): Promise<Task> {
