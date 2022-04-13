@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from './models/tasks/tasks.module';
 import { PostsModule } from './models/posts/posts.module';
+import { AuthModule } from './models/auth/auth.module';
 
 @Module({
   imports: [
     TasksModule,
     PostsModule,
+    AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',

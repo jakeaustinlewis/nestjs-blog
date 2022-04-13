@@ -1,5 +1,5 @@
 import { IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import HttpMethod from 'src/common/enum/http-method.enum';
+import HttpMethod from '../../../common/enum/http-method.enum';
 
 export class PostDto {
   @IsEmpty({ groups: [HttpMethod.Post] })
