@@ -25,7 +25,7 @@ export class PostMapper {
     return postDto;
   }
 
-  public static toEntityUpdate(postDto): PostDto {
+  public static toEntityUpdate(postDto): Post {
     const post = new Post();
 
     if (postDto.title) {

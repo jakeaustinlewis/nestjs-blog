@@ -36,7 +36,7 @@ export class PostsService {
     const post = await this.getPostById(id);
     const postToUpdate = PostMapper.toEntityUpdate(postDto);
 
-    const updatedPost = { ...post, ...postToUpdate };
+    const updatedPost = { ...post, ...postToUpdate } as Post;
 
     await this.postsRepo.save(updatedPost);
 

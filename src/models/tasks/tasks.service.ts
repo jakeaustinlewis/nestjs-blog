@@ -37,7 +37,7 @@ export class TasksService {
     const task = await this.getTaskById(id);
     const taskToUpdate = TaskMapper.toEntityUpdate(taskDto);
 
-    const updatedTask = { ...task, ...taskToUpdate };
+    const updatedTask = { ...task, ...taskToUpdate } as Task;
 
     await this.tasksRepo.save(updatedTask);
 

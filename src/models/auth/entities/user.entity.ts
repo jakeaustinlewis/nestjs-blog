@@ -1,18 +1,21 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Post {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
-  title?: string;
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
 
   @Column({ nullable: true })
-  description?: string;
+  firstName?: string;
 
   @Column({ nullable: true })
-  image?: string;
+  lastName?: string;
 
   @Column({ type: 'timestamptz', default: new Date() })
   createdAt: Date;

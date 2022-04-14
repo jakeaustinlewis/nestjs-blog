@@ -22,7 +22,7 @@ export class TaskMapper {
     return taskDto;
   }
 
-  public static toEntityUpdate(taskDto): TaskDto {
+  public static toEntityUpdate(taskDto): Task {
     const task = new Task();
 
     if (taskDto.status) {
