@@ -1,4 +1,13 @@
-import { IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEmpty,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import HttpMethod from 'src/common/enum/http-method.enum';
 
 export class UserDto {
@@ -6,13 +15,18 @@ export class UserDto {
   id: string;
 
   @IsNotEmpty({ groups: [HttpMethod.Post] })
-  @IsString({ groups: [HttpMethod.Post, HttpMethod.Patch] })
+  @IsEmail({ groups: [HttpMethod.Post, HttpMethod.Patch] })
   @IsOptional({ groups: [HttpMethod.Patch] })
   email: string;
 
   @IsNotEmpty({ groups: [HttpMethod.Post] })
-  @IsString({ groups: [HttpMethod.Post, HttpMethod.Patch] })
   @IsOptional({ groups: [HttpMethod.Patch] })
+  @MinLength(4, { groups: [HttpMethod.Post, HttpMethod.Patch] })
+  @MaxLength(32, { groups: [HttpMethod.Post, HttpMethod.Patch] })
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    groups: [HttpMethod.Post, HttpMethod.Patch],
+    message: 'password is weak',
+  })
   password: string;
 
   @IsString({ groups: [HttpMethod.Post, HttpMethod.Patch] })
