@@ -18,7 +18,7 @@ export class AuthController {
   @Post('/signin')
   signIn(
     @Body(new ValidationPipe(HttpMethod.Post)) userDto: UserDto,
-  ): Promise<void> {
+  ): Promise<{ accessToken: string }> {
     return this.authService.signIn(userDto);
   }
 }
