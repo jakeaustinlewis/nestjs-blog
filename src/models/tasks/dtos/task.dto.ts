@@ -6,6 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 import HttpMethod from 'src/common/enum/http-method.enum';
+import { User } from 'src/models/auth/entities/user.entity';
 import TaskStatus from '../../../common/enum/task-status.enum';
 
 export class TaskDto {
@@ -25,4 +26,6 @@ export class TaskDto {
   @IsOptional({ groups: [HttpMethod.Post, HttpMethod.Patch] })
   @IsEnum(TaskStatus)
   status?: TaskStatus;
+
+  user: User;
 }

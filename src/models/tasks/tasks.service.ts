@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../auth/entities/user.entity';
 import { GetTasksFilterDto } from './dtos/get-tasks-filter.dto';
 import { TaskDto } from './dtos/task.dto';
 import { Task } from './entities/task.entity';
@@ -13,12 +14,12 @@ export class TasksService {
     private tasksRepo: TasksRepository,
   ) {}
 
-  public async getTasks(filterDto?: GetTasksFilterDto): Promise<Task[]> {
+  public async getTasks(filterDto?: GetTasksFilterDto): Promise<TaskDto[]> {
     const tasks = await this.tasksRepo.getTasks(filterDto);
     return tasks.map((task) => TaskMapper.fromEntity(task));
   }
 
-  public async getTaskById(id: string): Promise<Task> {
+  public async getTaskById(id: string): Promise<TaskDto> {
     const task = await this.tasksRepo.findOne({ id });
 
     if (!task) {
@@ -27,8 +28,9 @@ export class TasksService {
     return TaskMapper.fromEntity(task);
   }
 
-  public async createTask(taskDto: TaskDto): Promise<Task> {
-    const task = TaskMapper.toEntity(taskDto);
+  public async createTask(taskDto: TaskDto, user: User): Promise<TaskDto> {
+    console.log('user: ', user);
+    const task = TaskMapper.toEntity({ ...taskDto, user });
     await this.tasksRepo.save(task);
     return TaskMapper.fromEntity(task);
   }

@@ -1,4 +1,5 @@
 import { IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import type { User } from 'src/models/auth/entities/user.entity';
 import HttpMethod from '../../../common/enum/http-method.enum';
 
 export class PostDto {
@@ -19,6 +20,10 @@ export class PostDto {
   @IsString({ groups: [HttpMethod.Post, HttpMethod.Patch] })
   @IsOptional({ groups: [HttpMethod.Patch] })
   image?: string;
+
+  @IsNotEmpty({ groups: [HttpMethod.Post] })
+  @IsString({ groups: [HttpMethod.Post] })
+  user: User;
 
   @IsEmpty({ groups: [HttpMethod.Post] })
   createdAt: Date;

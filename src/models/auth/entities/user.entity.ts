@@ -1,4 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Post } from 'src/models/posts/entities/post.entity';
+import { Task } from 'src/models/tasks/entities/task.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -17,9 +26,15 @@ export class User {
   @Column({ nullable: true })
   lastName?: string;
 
-  @Column({ type: 'timestamptz', default: new Date() })
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
+
+  @OneToMany((_type) => Task, (task) => task.user, { eager: true })
+  tasks: Task[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz', nullable: true })
+  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
   updatedAt?: Date;
 }

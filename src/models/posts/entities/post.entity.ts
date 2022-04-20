@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/models/auth/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Post {
@@ -14,9 +22,12 @@ export class Post {
   @Column({ nullable: true })
   image?: string;
 
-  @Column({ type: 'timestamptz', default: new Date() })
+  @ManyToOne((_type) => User, (user) => user.posts)
+  user: User;
+
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz', nullable: true })
+  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
   updatedAt?: Date;
 }

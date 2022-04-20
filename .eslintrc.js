@@ -28,6 +28,8 @@ module.exports = {
     "@typescript-eslint/indent": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   },
 };

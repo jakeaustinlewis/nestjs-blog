@@ -9,6 +9,7 @@ export class PostMapper {
     post.title = postDto.title;
     post.description = postDto.description;
     post.image = postDto.image;
+    post.user = postDto.user;
 
     return post;
   }
@@ -21,6 +22,7 @@ export class PostMapper {
     postDto.image = post.image;
     postDto.createdAt = post.createdAt;
     postDto.updatedAt = post.updatedAt;
+    postDto.user = post.user;
 
     return postDto;
   }

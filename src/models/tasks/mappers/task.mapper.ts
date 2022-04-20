@@ -10,6 +10,8 @@ export class TaskMapper {
     task.status = taskDto.status || TaskStatus.Open;
     task.description = taskDto.description;
     task.title = taskDto.title;
+    task.user = taskDto.user;
+
     return task;
   }
 
@@ -19,6 +21,8 @@ export class TaskMapper {
     taskDto.status = task.status;
     taskDto.description = task.description;
     taskDto.title = task.title;
+    taskDto.user = task.user;
+
     return taskDto;
   }
 
