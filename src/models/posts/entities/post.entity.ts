@@ -25,9 +25,16 @@ export class Post {
   @ManyToOne((_type) => User, (user) => user.posts)
   user: User;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP(3)',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP(3)',
+    onUpdate: 'CURRENT_TIMESTAMP(3)',
+  })
   updatedAt?: Date;
 }

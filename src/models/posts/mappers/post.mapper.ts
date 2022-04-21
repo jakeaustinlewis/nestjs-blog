@@ -42,8 +42,6 @@ export class PostMapper {
       post.image = postDto.image;
     }
 
-    post.updatedAt = new Date();
-
     return post;
   }
 }

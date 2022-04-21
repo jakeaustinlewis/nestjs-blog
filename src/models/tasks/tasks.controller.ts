@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { Task } from './entities/task.entity';
 import { TasksService } from './tasks.service';
@@ -17,7 +18,6 @@ import HttpMethod from '../../common/enum/http-method.enum';
 import { TaskDto } from './dtos/task.dto';
 import { GetTasksFilterDto } from './dtos/get-tasks-filter.dto';
 import { CollectionResponse } from '../../common/dtos/collection-response.dto';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { User } from '../auth/entities/user.entity';
 
 @Controller('tasks')

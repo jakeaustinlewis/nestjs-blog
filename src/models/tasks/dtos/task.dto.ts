@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   IsEmpty,
   IsEnum,
@@ -27,5 +28,6 @@ export class TaskDto {
   @IsEnum(TaskStatus)
   status?: TaskStatus;
 
+  @Exclude({ toPlainOnly: true })
   user: User;
 }

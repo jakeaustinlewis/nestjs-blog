@@ -29,7 +29,6 @@ export class TasksService {
   }
 
   public async createTask(taskDto: TaskDto, user: User): Promise<TaskDto> {
-    console.log('user: ', user);
     const task = TaskMapper.toEntity({ ...taskDto, user });
     await this.tasksRepo.save(task);
     return TaskMapper.fromEntity(task);

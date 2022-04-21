@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import type { User } from 'src/models/auth/entities/user.entity';
 import HttpMethod from '../../../common/enum/http-method.enum';
@@ -21,8 +22,7 @@ export class PostDto {
   @IsOptional({ groups: [HttpMethod.Patch] })
   image?: string;
 
-  @IsNotEmpty({ groups: [HttpMethod.Post] })
-  @IsString({ groups: [HttpMethod.Post] })
+  @Exclude({ toPlainOnly: true })
   user: User;
 
   @IsEmpty({ groups: [HttpMethod.Post] })

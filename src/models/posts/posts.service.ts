@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../auth/entities/user.entity';
 import { GetPostsFilterDto } from './dtos/get-posts-filter.dto';
 import { PostDto } from './dtos/post.dto';
 import { Post } from './entities/post.entity';
@@ -26,8 +27,8 @@ export class PostsService {
     return PostMapper.fromEntity(post);
   }
 
-  public async createPost(postDto: PostDto): Promise<PostDto> {
-    const post = PostMapper.toEntity(postDto);
+  public async createPost(postDto: PostDto, user: User): Promise<PostDto> {
+    const post = PostMapper.toEntity({ ...postDto, user });
     await this.postsRepo.save(post);
     return PostMapper.fromEntity(post);
   }

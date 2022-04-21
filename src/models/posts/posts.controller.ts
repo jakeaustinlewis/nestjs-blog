@@ -7,15 +7,20 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CollectionResponse } from '../../common/dtos/collection-response.dto';
 import HttpMethod from '../../common/enum/http-method.enum';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
+import { User } from '../auth/entities/user.entity';
 import { GetPostsFilterDto } from './dtos/get-posts-filter.dto';
 import { PostDto } from './dtos/post.dto';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
+@UseGuards(AuthGuard())
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
@@ -34,8 +39,9 @@ export class PostsController {
 
   @Post() createPost(
     @Body(new ValidationPipe(HttpMethod.Post)) createPostDto: PostDto,
+    @GetUser() user: User,
   ): Promise<PostDto> {
-    return this.postsService.createPost(createPostDto);
+    return this.postsService.createPost(createPostDto, user);
   }
 
   @Patch('/:id') async updatePost(
